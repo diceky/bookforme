@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Styles from "./Home.module.css";
 import Form from "../components/Form";
 import Call from "../components/Call";
+import Welcome from "../components/Welcome";
 
 const Home = () => {
 
+  const [welcome, setWelcome] = useState(true);
   const [booking, setBooking] = useState({});
   const [callFlag, setCallFlag] = useState(false);
   const [callStatus, setCallStatus] = useState({});
@@ -15,6 +17,9 @@ const Home = () => {
       const url = `${import.meta.env.VITE_SERVER_ENDOINT}/call`;
 
       const callApi = async () => {
+
+        setCallFlag(true);
+        
         try {
           await fetch(url, {
             method: 'POST',
@@ -26,7 +31,6 @@ const Home = () => {
             })
             .then((response) => {
               setCallStatus(response);
-              setCallFlag(true);
             });
         } catch (error) {
           console.error(error);
@@ -61,9 +65,15 @@ const Home = () => {
     });
   };
 
+  const onProceed = () => {
+    setWelcome(false);
+  }
+
   return (
     <div className={Styles.wrapper}>
-      {!callFlag ? <Form onSubmit={onSubmit} /> : <Call booking={booking} callStatus={callStatus.status} callMessage={callStatus.message} callId={callStatus["call_id"]}/>}
+      {welcome && <Welcome onButton={onProceed}/>}
+      {!welcome && !callFlag && <Form onSubmit={onSubmit} />}
+      {!welcome && callFlag && <Call booking={booking} callStatus={callStatus.status} callMessage={callStatus.message} callId={callStatus["call_id"]}/>}
     </div>
   )
 }

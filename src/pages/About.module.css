@@ -1,3 +1,9 @@
+.wrapper{
+  padding: 60px 0;
+  width: 60%;
+  margin: auto;
+}
+
 .title {
     text-align: center;
     font-size: 64px;
@@ -5,6 +11,6 @@
   }
 
 .text{
-  text-align: center;
+  text-align: left;
   font-size: 18px;
 }

@@ -1,0 +1,20 @@
+.title{
+    font-size: 24px;
+    font-weight: 900;
+}
+
+.text{
+    font-size: 16px;
+    line-height: 150%;
+    margin-bottom: 50px;
+}
+
+.button{
+    padding: 20px;
+    font-size: 24px;
+    width: 80%;
+    margin: auto;
+    border-radius: 14px;
+    background-color: black;
+    color: white;
+}

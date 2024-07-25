@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Styles from "./Call.module.css";
+import BeatLoader from "react-spinners/BeatLoader";
 
 const Call = ({booking, callStatus, callMessage, callId}) => {
 
@@ -28,26 +29,35 @@ const Call = ({booking, callStatus, callMessage, callId}) => {
   return (
     <div className={Styles.wrapper}>
         <p className={Styles.updates}>
-            Making call to {booking.restaurantPhone} ... 📞
+            Setting up the call to {booking.restaurantPhone} ... 📞
         </p>
         <p className={Styles.updates}>
-            Call Message: {callMessage}<br/>
+            Call status: {callMessage}<br/>
             Call ID: {callId}
         </p>
         {callStatus==="success" && 
             <>
                 <p className={Styles.updates}>
-                    We will update you once the call has ended so stay there 🤙
+                    The call is being made right now 🤙 We will update you when it ends so stay there! (calls typically take 3-5 minutes)
                 </p>
                 <div className={Styles.divider}></div>
             </>
         }
-        {summary && 
-                <p className={Styles.updates}>
-                    {summary}
-                </p>
+        {!summary && 
+            <BeatLoader
+            size={30}
+            aria-label="Loading Spinner"
+          />
+    
         }
-        {transcript && transcript.map((value, index) => <p className={Styles.updates}>{JSON.stringify(value, null, 2)}</p>)}
+        {summary && 
+                <>
+                    <p className={Styles.title}>Here's the result of the call 👇</p>
+                    <p className={Styles.updates}>{summary}</p>
+                </>
+        }
+        {transcript && transcript.map((value, index) => <p className={Styles.updates} key={index}>{JSON.stringify(value, null, 2)}</p>)}
+        {summary && <p className={Styles.end}>THE END 👋</p>}
     </div>
   )
 };
