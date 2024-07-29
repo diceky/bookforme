@@ -62,6 +62,7 @@ const Home = () => {
       partyNum: data.partyNum,
       language: data.language,
       planB: planB,
+      userPhone: data.userPhone,
     });
   };
 
@@ -69,11 +70,16 @@ const Home = () => {
     setWelcome(false);
   }
 
+  const onFinish = () => {
+    setWelcome(true);
+    setCallFlag(false);
+  }
+
   return (
     <div className={Styles.wrapper}>
       {welcome && <Welcome onButton={onProceed}/>}
-      {!welcome && !callFlag && <Form onSubmit={onSubmit} />}
-      {!welcome && callFlag && <Call booking={booking} callStatus={callStatus.status} callMessage={callStatus.message} callId={callStatus["call_id"]}/>}
+      {!welcome && !callFlag && <Form onSubmit={onSubmit}/>}
+      {!welcome && callFlag && <Call booking={booking} callStatus={callStatus.status} callMessage={callStatus.message} callId={callStatus["call_id"]} onFinish={onFinish}/>}
     </div>
   )
 }

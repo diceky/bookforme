@@ -1,23 +1,48 @@
-.wrapper{
-    padding: 20px;
-    background-color: black;
-    color: white;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.wrapper {
+  padding: 20px 60px;
+  color: #3d405b;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 18px;
 }
 
-.links{
-    display: flex;
-    flex-direction: row;
-    column-gap: 20px;
+.title {
+  font-weight: 700;
+  text-decoration: none;
+  color: #3d405b;
+}
+
+.links {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
 }
 
 .link {
-    text-decoration: none;
-    color: white;
+  text-decoration: none;
+  color: #3d405b;
+}
+
+.link:hover {
+  color: #d49c6b;
+}
+
+/**************
+Responsive
+**************/
+@media screen and (max-width: 480px) {
+
+  /*　Smartphone portrait */
+  .wrapper {
+    padding: 20px;
   }
-  
-  .link:hover {
-    color: #d49c6b;
+  .link {
+    font-size: 16px;
   }
+}
+
+
+@media screen and (min-width: 480px) and (max-width: 896px) {
+  /*　for iPad portrait and Smartphone landscape 　*/
+}

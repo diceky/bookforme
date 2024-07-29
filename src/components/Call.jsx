@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Styles from "./Call.module.css";
 import BeatLoader from "react-spinners/BeatLoader";
 
-const Call = ({booking, callStatus, callMessage, callId}) => {
+const Call = ({booking, callStatus, callMessage, callId, onFinish}) => {
 
     const [summary, setSummary] = useState("");
     const [transcript, setTranscript] = useState([]);
@@ -32,20 +32,20 @@ const Call = ({booking, callStatus, callMessage, callId}) => {
             Setting up the call to {booking.restaurantPhone} ... 📞
         </p>
         <p className={Styles.updates}>
-            Call status: {callMessage}<br/>
-            Call ID: {callId}
+            Call status: {callMessage ? callMessage : "waiting..."}<br/>
+            Call ID: {callId ? callId : "waiting..."}
         </p>
         {callStatus==="success" && 
             <>
                 <p className={Styles.updates}>
-                    The call is being made right now 🤙 We will update you when it ends so stay there! (calls typically take 3-5 minutes)
+                    The call is being made right now 🤙 We will update you when it ends so <b>don't refresh the browser!</b> (calls typically take 3-5 minutes)
                 </p>
                 <div className={Styles.divider}></div>
             </>
         }
         {!summary && 
             <BeatLoader
-            size={30}
+            size={20}
             aria-label="Loading Spinner"
           />
     
@@ -53,11 +53,12 @@ const Call = ({booking, callStatus, callMessage, callId}) => {
         {summary && 
                 <>
                     <p className={Styles.title}>Here's the result of the call 👇</p>
-                    <p className={Styles.updates}>{summary}</p>
+                    <p className={Styles.summary}>{summary}</p>
                 </>
         }
         {transcript && transcript.map((value, index) => <p className={Styles.updates} key={index}>{JSON.stringify(value, null, 2)}</p>)}
         {summary && <p className={Styles.end}>THE END 👋</p>}
+        {summary && <button className={Styles.back} onClick={onFinish}>Back to top</button>}
     </div>
   )
 };

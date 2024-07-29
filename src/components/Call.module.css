@@ -15,6 +15,12 @@
     border-radius: 20px;
 }
 
+.summary{
+    composes: updates;
+    background-color: #81b29a;
+    color: white;
+}
+
 .divider{
     width: 100%;
     height: 2px;
@@ -26,4 +32,16 @@
     composes: updates;
     background-color: black;
     color: white;
+}
+
+.back{
+    display: block;
+    margin-top: 20px;
+    font-size: 14px;
+    border: black 1px solid;
+    border-radius: 40px;
+    width: 160px;
+    background-color: #f4f1de;
+    padding: 20px;
+    margin: 60px auto 0;
 }

@@ -5,12 +5,38 @@
 }
 
 .title {
-    text-align: center;
-    font-size: 64px;
-    margin-bottom: 60px;
-  }
+  text-align: center;
+  font-size: 64px;
+  margin-bottom: 100px;
+  font-weight: 900;
+}
 
 .text{
   text-align: left;
   font-size: 18px;
+  line-height: 140%;
+}
+
+.link{
+  color: #e07a5f;
+  text-decoration: none;
+  font-weight: 600;
+  font-style: italic;
+}
+
+/**************
+Responsive
+**************/
+@media screen and (max-width: 480px) {
+
+  /*　Smartphone portrait */
+  .wrapper {
+    padding: 60px 0 100px;
+    width: 85%;
+  }
+}
+
+
+@media screen and (min-width: 480px) and (max-width: 896px) {
+  /*　for iPad portrait and Smartphone landscape 　*/
 }
