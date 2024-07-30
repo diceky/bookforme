@@ -137,6 +137,12 @@ const Form = ({ onSubmit }) => {
             <p className={Styles.error}>{errors?.userPhone?.message}</p>
           </div>
 
+          <div className={Styles.termsWrapper}>
+              <input form="form" type="checkbox" id="terms" {...register("terms", { required: "This is required" })} />
+              <label htmlFor="terms">I understand that this is a GenAI experiment and that I am solely responsible for any trouble or damage caused by this AI reservation process 😉</label>
+              <p className={Styles.error}>{errors?.terms?.message}</p>
+            </div>
+
           <input form="form" type="submit" value="Make the call" className={Styles.submit}/>
           <button className={Styles.back} onClick={onBack}>Back</button>
         </>
