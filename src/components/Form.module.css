@@ -65,3 +65,20 @@ input, select{
     font-weight: 500;
     color: #e63946; 
 }
+
+/**************
+Responsive
+**************/
+@media screen and (max-width: 480px) {
+
+    /*　Smartphone portrait */
+    .twoColumn{
+        display: flex;
+        flex-direction: column;
+    }
+  }
+  
+  
+  @media screen and (min-width: 480px) and (max-width: 896px) {
+    /*　for iPad portrait and Smartphone landscape 　*/
+  }

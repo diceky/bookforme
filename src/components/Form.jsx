@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Styles from "./Form.module.css";
 import { useForm } from "react-hook-form";
+import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form';
+import 'react-phone-number-input/style.css'
 
 const Form = ({ onSubmit }) => {
 
@@ -11,6 +13,7 @@ const Form = ({ onSubmit }) => {
     register,
     handleSubmit,
     trigger,
+    control,
     formState: { errors, isValidating },
   } = useForm();
 
@@ -45,7 +48,14 @@ const Form = ({ onSubmit }) => {
 
           <div className={Styles.inputWrapper}>
             <label htmlFor="rphone">Phone number of restaurant (with country code)</label>
-            <input form="form" placeholder="+8112345678" id="rphone" {...register("restaurantPhone", { required: "This is required" })} />
+            {/* <input form="form" placeholder="+8112345678" id="rphone" {...register("restaurantPhone", { required: "This is required" })} /> */}
+            <PhoneInputWithCountry
+              international
+              id="rphone"
+              name="restaurantPhone"
+              defaultCountry="JP"
+              control={control}
+              rules={{ required: "This is required" }} />
             <p className={Styles.error}>{errors?.restaurantPhone?.message}</p>
           </div>
 
