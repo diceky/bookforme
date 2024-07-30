@@ -126,7 +126,14 @@ const Form = ({ onSubmit }) => {
 
           <div className={Styles.inputWrapper}>
             <label htmlFor="uphone">Your phone number</label>
-            <input form="form" placeholder="09012345678" id="uphone" {...register("userPhone", { required: "This is required" })} />
+            {/* <input form="form" placeholder="09012345678" id="uphone" {...register("userPhone", { required: "This is required" })} /> */}
+            <PhoneInputWithCountry
+              international
+              id="uphone"
+              name="userPhone"
+              defaultCountry="JP"
+              control={control}
+              rules={{ required: "This is required" }} />
             <p className={Styles.error}>{errors?.userPhone?.message}</p>
           </div>
 

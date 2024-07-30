@@ -15,6 +15,12 @@
     border-radius: 20px;
 }
 
+.important{
+    composes: updates;
+    background-color: #e07a5f;
+    color: white;
+}
+
 .summary{
     composes: updates;
     background-color: #81b29a;
