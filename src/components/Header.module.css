@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   font-size: 18px;
 }
 
@@ -16,6 +17,7 @@
 .links {
   display: flex;
   flex-direction: row;
+  align-items: center;
   column-gap: 20px;
 }
 
@@ -28,6 +30,10 @@
   color: #d49c6b;
 }
 
+.coffee img{
+  height: 34px;
+}
+
 /**************
 Responsive
 **************/
@@ -38,11 +44,14 @@ Responsive
     padding: 20px;
   }
   .link {
-    font-size: 16px;
+    display: none;
   }
 }
 
 
 @media screen and (min-width: 480px) and (max-width: 896px) {
   /*　for iPad portrait and Smartphone landscape 　*/
+  .wrapper {
+    padding: 20px;
+  }
 }

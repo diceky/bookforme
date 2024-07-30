@@ -79,6 +79,9 @@ const Call = ({ booking, callStatus, callMessage, callId, onFinish }) => {
                             <p className={Styles.end}>THE END 👋</p>
                             <div className={Styles.divider}></div>
                             <SendEmail summary={summary} booking={booking}/>
+                            <div className={Styles.divider}></div>
+                            <p className={Styles.title}>If you liked this app, please support us by buying us coffee 👇</p>
+                            <a className={Styles.coffee} href="https://www.buymeacoffee.com/duhhhinc" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-green.png" alt="Buy Me A Coffee" /></a>
                             <button className={Styles.back} onClick={onFinish}>Back to top</button>
                         </>
                     }
