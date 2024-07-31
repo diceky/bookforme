@@ -4,11 +4,6 @@ import Form from "../components/Form";
 import Call from "../components/Call";
 import Welcome from "../components/Welcome";
 
-const planBOptions = [
-  "Give up the reservation",
-  "Check for slots 1 hour before or after the desired slot"
-];
-
 const Home = () => {
 
   const [welcome, setWelcome] = useState(true);
@@ -53,8 +48,6 @@ const Home = () => {
     const hour = datetime.getHours();
     const minute = datetime.getMinutes();
 
-    const planB = planBOptions[data.planB - 1];
-
     setBooking({
       firstName: data.firstName,
       lastName: data.lastName,
@@ -66,7 +59,7 @@ const Home = () => {
       restaurantPhone: data.restaurantPhone,
       partyNum: data.partyNum,
       language: data.language,
-      planB: planB,
+      planB: data.planB,
       userPhone: data.userPhone,
     });
   };
