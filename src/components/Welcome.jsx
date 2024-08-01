@@ -6,7 +6,7 @@ const Welcome = ({onButton}) => {
     <div className={Styles.wrapper}>
         <p className={Styles.title}>
           Make a reservation call. <br />
-          In <span className={Styles.highlight}>any</span> language.
+          In <span className={Styles.highlight}>any</span> country.
         </p>
         <p className={Styles.text}>
             Many restaurants still require us to call them to make a reservation. <br />
