@@ -15,15 +15,31 @@
     border-radius: 20px;
 }
 
-.important{
+.conversationWrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.agent{
     composes: updates;
-    background-color: #e07a5f;
+    margin:0;
+    width: 300px;
+}
+
+.receiver{
+    composes: updates;
+    margin: 0;
+    margin-left: auto;
+    width: 300px;
+    background-color: #81b29a;
     color: white;
 }
 
-.summary{
+.important{
     composes: updates;
-    background-color: #81b29a;
+    background-color: #e07a5f;
     color: white;
 }
 

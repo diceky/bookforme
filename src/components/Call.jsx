@@ -9,21 +9,56 @@ const Call = ({ booking, callStatus, callMessage, callId, onFinish }) => {
     const [transcript, setTranscript] = useState([]);
     const [isSuccessful, setIsSuccessful] = useState(false);
     const [isComplete, setIsComplete] = useState(false);
+    const [conversation, setConversation] = useState([]);
 
     useEffect(() => {
+        if (!callId) return;
+        
         const eventSource = new EventSource(`${import.meta.env.VITE_SERVER_ENDOINT}/events/${callId}`);
 
         eventSource.onmessage = (event) => {
-            const receivedData = JSON.parse(event.data);
-            console.log('Message from server ', receivedData);
-            setSummary(receivedData.summary);
-            setTranscript(receivedData.transcripts);
-            setIsSuccessful(receivedData.analysis["is_reservation_successful"]);
-            setIsComplete(receivedData.completed);
+
+            try {
+                const receivedData = JSON.parse(event.data);
+                //console.log('Parsed message from server:', receivedData);
+
+                if (receivedData.type === "webhook" && receivedData.data) {
+                    setSummary(receivedData.data.summary);
+                    setTranscript(receivedData.data.transcripts);
+                    setIsSuccessful(receivedData.data.analysis["is_reservation_successful"]);
+                    setIsComplete(receivedData.data.completed);
+
+                } else if (receivedData.type === "event_stream") {
+                // loop through receivedData.event_stream_data and add to conversation if "category" is "call" and "level" is "info"
+                    const newConversation = [...conversation]; ;
+                    if (Array.isArray(receivedData.data.event_stream_data)) {
+                        receivedData.data.event_stream_data.forEach((item) => {
+                            //console.log('Processing item:', item);
+                            if (item.category === "call" && item.level === "info") {
+                                if (!newConversation[item.id]) {
+                                    newConversation[item.id] = [];
+                                }
+                                let sender = "default";
+                                if(item.message.includes("Agent speech")) sender = "agent";
+                                else if (item.message.includes("user speech")) sender = "receiver";
+                                newConversation[item.id].push({
+                                    sender:sender,
+                                    content:item.message
+                            });
+                            }
+                        });
+                        setConversation(newConversation);
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to parse JSON:', error);
+                console.error('Raw data that failed to parse:', event.data);
+            }
         };
 
         eventSource.onerror = (error) => {
             console.error('EventSource failed:', error);
+            console.error('EventSource readyState:', eventSource.readyState);
         };
 
         return () => {
@@ -55,9 +90,15 @@ const Call = ({ booking, callStatus, callMessage, callId, onFinish }) => {
             {callStatus === "success" &&
                 <>
                     <p className={Styles.important}>
-                        The call is being made right now 🤙 We will update you when it ends so <b>don't refresh the browser!</b> (calls typically take 3-5 minutes)
+                        The call is being made right now 🤙 We will update you when it ends so <b>don't refresh the browser!</b> (calls typically take 2-3 minutes)
                     </p>
                     <div className={Styles.divider}></div>
+                    <p className={Styles.title}>Follow the conversation in real time👇</p>
+                    <div className={Styles.conversationWrapper}>
+                        {Object.values(conversation).flat().filter(item => item.sender !== "default").map((item, index) => (
+                            <p className={item.sender === "agent" ? Styles.agent : Styles.receiver} key={index}>{item.content}</p>
+                        ))}
+                    </div>
                     {!isComplete &&
                         <BeatLoader
                             size={20}
@@ -66,6 +107,7 @@ const Call = ({ booking, callStatus, callMessage, callId, onFinish }) => {
                     }
                     {isComplete && !summary && 
                         <>
+                            <div className={Styles.divider}></div>
                             <p className={Styles.title}>It seems the restaurant did not pick up the call. Please try again 🤞</p>
                             <p className={Styles.end}>THE END 👋</p>
                             <button className={Styles.back} onClick={onFinish}>Back to top</button>
@@ -73,9 +115,9 @@ const Call = ({ booking, callStatus, callMessage, callId, onFinish }) => {
                     }
                     {isComplete && summary &&
                         <>
+                            <div className={Styles.divider}></div>
                             <p className={Styles.title}>{isSuccessful ? "Congrats, the reservation was successful ✅" : "Sorry, we couldn't get you a table 🚫"}</p>
-                            <p className={Styles.summary}>{summary}</p>
-                            {transcript && transcript.map((value, index) => <p className={Styles.updates} key={index}>{JSON.stringify(value, null, 2)}</p>)}
+                            <p className={Styles.important}>{summary}</p>
                             <p className={Styles.end}>THE END 👋</p>
                             <div className={Styles.divider}></div>
                             <SendEmail summary={summary} booking={booking}/>
