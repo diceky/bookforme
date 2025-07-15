@@ -6,7 +6,6 @@ import SendEmail from "./SendEmail";
 const Call = ({ booking, callStatus, callMessage, callId, onFinish }) => {
 
     const [summary, setSummary] = useState("");
-    const [transcript, setTranscript] = useState([]);
     const [isSuccessful, setIsSuccessful] = useState(false);
     const [isComplete, setIsComplete] = useState(false);
     const [conversation, setConversation] = useState([]);
@@ -24,13 +23,12 @@ const Call = ({ booking, callStatus, callMessage, callId, onFinish }) => {
 
                 if (receivedData.type === "webhook" && receivedData.data) {
                     setSummary(receivedData.data.summary);
-                    setTranscript(receivedData.data.transcripts);
                     setIsSuccessful(receivedData.data.analysis["is_reservation_successful"]);
                     setIsComplete(receivedData.data.completed);
 
                 } else if (receivedData.type === "event_stream") {
                 // loop through receivedData.event_stream_data and add to conversation if "category" is "call" and "level" is "info"
-                    const newConversation = [...conversation]; ;
+                    const newConversation = [...conversation];
                     if (Array.isArray(receivedData.data.event_stream_data)) {
                         receivedData.data.event_stream_data.forEach((item) => {
                             //console.log('Processing item:', item);
