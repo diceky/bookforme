@@ -61,7 +61,13 @@ const Form = ({ onSubmit }) => {
 
           <div className={Styles.inputWrapper}>
             <label htmlFor="datetime">Date of reservation (in the restaurant's local time)</label>
-            <input form="form" id="datetime" type="datetime-local" {...register("datetime", { required: "This is required" })} />
+            <input
+              form="form"
+              id="datetime"
+              type="datetime-local"
+              defaultValue={new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16)}
+              {...register("datetime", { required: "This is required" })}
+            />
             <p className={Styles.error}>{errors?.datetime?.message}</p>
           </div>
 
