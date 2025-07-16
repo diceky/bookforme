@@ -145,7 +145,13 @@ const Form = ({ onSubmit }) => {
               <input form="form" type="checkbox" id="terms" {...register("terms", { required: "This is required" })} />
               <label htmlFor="terms">I understand that this is a GenAI experiment and that I am solely responsible for any trouble or damage caused by this AI reservation process 😉</label>
               <p className={Styles.error}>{errors?.terms?.message}</p>
-            </div>
+          </div>
+
+          <div className={Styles.termsWrapper}>
+              <input form="form" type="checkbox" id="transparency" {...register("transparency", { required: "This is required" })} />
+              <label htmlFor="transparency">I understand that the AI agent will be fully transparent to the restaurant about the fact that it is an AI making the call. If the restaurant does not feel comfortable, it will stop the call ✋</label>
+              <p className={Styles.error}>{errors?.transparency?.message}</p>
+          </div>
 
           <input form="form" type="submit" value="Make the call" className={Styles.submit}/>
           <button className={Styles.back} onClick={onBack}>Back</button>
