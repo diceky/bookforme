@@ -9,6 +9,7 @@ const Call = ({ booking, callStatus, callMessage, callId, onFinish }) => {
     const [isSuccessful, setIsSuccessful] = useState(false);
     const [isComplete, setIsComplete] = useState(false);
     const [conversation, setConversation] = useState([]);
+    const [isStopping, setIsStopping] = useState(false);
 
     useEffect(() => {
         if (!callId) return;
@@ -64,6 +65,33 @@ const Call = ({ booking, callStatus, callMessage, callId, onFinish }) => {
         };
     }, [callId]);
 
+    const onStop = async () => {
+        setIsStopping(true);
+
+        const url = `${import.meta.env.VITE_SERVER_ENDOINT}/stop/${callId}`;
+
+        try {
+          await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+          })
+            .then((response) => {
+                console.log(response);
+                return response.json();
+            })
+            .then((response) => {
+                console.log(response);
+                if (response.status === "success") {
+                    setIsComplete(true);
+                } else {
+                    console.error('Error stopping the call:', response.message);
+                }
+            });
+        } catch (error) {
+          console.error(error);
+        }
+    }
+
     return (
         <div className={Styles.wrapper}>
             <p className={Styles.updates}>
@@ -98,15 +126,18 @@ const Call = ({ booking, callStatus, callMessage, callId, onFinish }) => {
                         ))}
                     </div>
                     {!isComplete &&
-                        <BeatLoader
-                            size={20}
-                            aria-label="Loading Spinner"
-                        />
+                        <>
+                            <BeatLoader
+                                size={20}
+                                aria-label="Loading Spinner"
+                            />
+                            <button className={Styles.back} onClick={onStop}>{isStopping ? "Stopping..." : "Stop call"}</button>
+                        </>
                     }
                     {isComplete && !summary && 
                         <>
                             <div className={Styles.divider}></div>
-                            <p className={Styles.title}>It seems the restaurant did not pick up the call. Please try again 🤞</p>
+                            <p className={Styles.title}>{isStopping ? "You have cancelled the call 🛑": "It seems the restaurant did not pick up the call. Please try again 🤞"}</p>
                             <p className={Styles.end}>THE END 👋</p>
                             <button className={Styles.back} onClick={onFinish}>Back to top</button>
                         </>
